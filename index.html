@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="doTERRA Inventory — удобный учёт эфирных масел, остатков и списка покупок прямо в браузере.">
   <title>doTERRA Inventory — учёт эфирных масел</title>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("doterra_theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme === "dark" || savedTheme === "light"
+        ? savedTheme
+        : prefersDark ? "dark" : "light";
+
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <link rel="stylesheet" href="assets/css/landing.css">
 </head>
 <body>
@@ -20,6 +31,17 @@
         </div>
 
         <div class="nav-links">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            aria-label="Переключить на тёмную тему"
+            title="Переключить тему"
+          >
+            <span class="theme-toggle-icon theme-toggle-icon-light" aria-hidden="true">🌙</span>
+            <span class="theme-toggle-icon theme-toggle-icon-dark" aria-hidden="true">☀️</span>
+          </button>
+
           <a class="button button-secondary" href="#features">Возможности</a>
           <a class="button button-primary" href="app/index.html">Открыть приложение</a>
         </div>
