@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Онлайн-учёт эфирных масел doTERRA: наличие, количество и список покупок.">
+  <title>Учёт масел — doTERRA</title>
+  <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="brand-block">
+          <div class="brand-icon" aria-hidden="true">🌿</div>
+
+          <div>
+            <h1>Моя коллекция doTERRA</h1>
+            <p>Учёт эфирных масел, остатков и будущих покупок</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <a class="button button-secondary" href="../index.html">
+            ← На главную
+          </a>
+
+          <button
+            class="button button-primary"
+            id="openShoppingListButton"
+            type="button"
+          >
+            🛒 Список покупок
+          </button>
+
+          <button class="button button-secondary" id="exportButton" type="button">
+            📤 Экспорт
+          </button>
+
+          <button class="button button-secondary" id="importButton" type="button">
+            📥 Импорт
+          </button>
+
+          <input
+            class="hidden"
+            id="importFileInput"
+            type="file"
+            accept=".json,application/json"
+          >
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="statistics" aria-label="Статистика коллекции">
+      <article class="stat-card">
+        <div class="stat-label">Всего наименований</div>
+        <div class="stat-value" id="totalNamesStatistic">0</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">Всего флаконов</div>
+        <div class="stat-value" id="totalBottlesStatistic">0</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">Есть в наличии</div>
+        <div class="stat-value" id="availableStatistic">0</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">Заканчиваются</div>
+        <div class="stat-value" id="lowStockStatistic">0</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">Нужно купить</div>
+        <div class="stat-value" id="shoppingStatistic">0</div>
+      </article>
+    </section>
+
+    <div class="main-layout">
+      <section class="panel form-panel">
+        <div class="panel-header">
+          <div>
+            <h2 id="formTitle">Добавить масло</h2>
+            <p>Заполните информацию о наличии и желаемом запасе.</p>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <form class="form-grid" id="oilForm">
+            <input id="editingOilId" type="hidden">
+
+            <div class="form-group">
+              <label for="oilName">
+                Название масла
+                <span class="required">*</span>
+              </label>
+              <input
+                id="oilName"
+                name="oilName"
+                type="text"
+                placeholder="Например: Лаванда"
+                maxlength="100"
+                required
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="oilCategory">Категория</label>
+                <select id="oilCategory" name="oilCategory">
+                  <option value="Одиночное масло">Одиночное масло</option>
+                  <option value="Смесь">Смесь</option>
+                  <option value="Роллер">Роллер</option>
+                  <option value="Детская коллекция">Детская коллекция</option>
+                  <option value="Кулинарное применение">Кулинарное применение</option>
+                  <option value="Другое">Другое</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="bottleVolume">Объём флакона</label>
+                <select id="bottleVolume" name="bottleVolume">
+                  <option value="15">15 мл</option>
+                  <option value="10">10 мл</option>
+                  <option value="5">5 мл</option>
+                  <option value="other">Другой</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group hidden" id="customVolumeGroup">
+              <label for="customVolume">Свой объём, мл</label>
+              <input
+                id="customVolume"
+                name="customVolume"
+                type="number"
+                min="0.1"
+                max="1000"
+                step="0.1"
+                placeholder="Например: 30"
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="sealedBottles">Закрытые флаконы</label>
+                <input id="sealedBottles" name="sealedBottles" type="number" min="0" max="999" step="1" value="0">
+              </div>
+
+              <div class="form-group">
+                <label for="openedBottles">Открытые флаконы</label>
+                <input id="openedBottles" name="openedBottles" type="number" min="0" max="999" step="1" value="0">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="remainingVolume">Остаток в открытых флаконах, мл</label>
+              <input id="remainingVolume" name="remainingVolume" type="number" min="0" max="10000" step="0.1" value="0">
+              <div class="input-hint">
+                Укажите примерный суммарный остаток во всех открытых флаконах этого масла.
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="minimumStock">Минимальный запас</label>
+                <input id="minimumStock" name="minimumStock" type="number" min="0" max="999" step="1" value="1">
+                <div class="input-hint">Сколько флаконов вы хотите всегда иметь.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="purchaseQuantity">Купить вручную</label>
+                <input id="purchaseQuantity" name="purchaseQuantity" type="number" min="0" max="999" step="1" value="0">
+                <div class="input-hint">Дополнительное количество для списка покупок.</div>
+              </div>
+            </div>
+
+            <label class="checkbox-label">
+              <input id="autoPurchase" name="autoPurchase" type="checkbox" checked>
+              <span>
+                Автоматически добавлять масло в список покупок,
+                когда запас ниже минимального
+              </span>
+            </label>
+
+            <div class="form-group">
+              <label for="purchasePriority">Приоритет покупки</label>
+              <select id="purchasePriority" name="purchasePriority">
+                <option value="Обычный">Обычный</option>
+                <option value="Высокий">Высокий</option>
+                <option value="Срочный">Срочный</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="oilNotes">Заметки</label>
+              <textarea
+                id="oilNotes"
+                name="oilNotes"
+                maxlength="500"
+                placeholder="Например: использовать для сна, заказать в следующем месяце..."
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="saveOilButton" type="submit">
+                ➕ Добавить масло
+              </button>
+              <button class="button button-secondary hidden" id="cancelEditButton" type="button">
+                Отменить
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Мои эфирные масла</h2>
+            <p>Все изменения автоматически сохраняются в браузере.</p>
+          </div>
+
+          <button
+            class="button button-danger button-small"
+            id="clearAllButton"
+            type="button"
+            title="Удалить все записи"
+          >
+            Очистить всё
+          </button>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-wrapper">
+            <span class="search-icon" aria-hidden="true">🔎</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Поиск по названию или заметкам"
+              aria-label="Поиск масел"
+            >
+          </div>
+
+          <select id="statusFilter" aria-label="Фильтр по наличию">
+            <option value="all">Все состояния</option>
+            <option value="available">Есть в наличии</option>
+            <option value="low">Заканчиваются</option>
+            <option value="missing">Нет в наличии</option>
+            <option value="shopping">Нужно купить</option>
+          </select>
+
+          <select id="categoryFilter" aria-label="Фильтр по категории">
+            <option value="all">Все категории</option>
+          </select>
+        </div>
+
+        <div class="list-summary">
+          <span id="visibleRecordsText">Показано: 0</span>
+          <span>Данные сохраняются только на этом устройстве</span>
+        </div>
+
+        <div class="table-wrapper" id="desktopTableWrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Масло</th>
+                <th>Объём</th>
+                <th>Закрытые</th>
+                <th>Открытые</th>
+                <th>Остаток</th>
+                <th>Состояние</th>
+                <th>Купить</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="oilTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="mobile-cards" id="mobileCardsContainer"></div>
+
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon" aria-hidden="true">🌱</div>
+          <h3 id="emptyStateTitle">Масла пока не добавлены</h3>
+          <p id="emptyStateText">
+            Заполните форму, чтобы добавить первое эфирное масло в вашу коллекцию.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="container">
+    Учёт эфирных масел doTERRA • Данные хранятся в памяти браузера
+  </footer>
+
+  <div
+    class="modal-overlay hidden"
+    id="shoppingModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shoppingModalTitle"
+  >
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="shoppingModalTitle">Список покупок</h2>
+          <p>Масла, которые закончились или требуют пополнения.</p>
+        </div>
+
+        <button class="icon-button" id="closeShoppingModalButton" type="button" aria-label="Закрыть окно">
+          ✕
+        </button>
+      </div>
+
+      <div class="modal-content">
+        <div class="shopping-list" id="shoppingListContainer"></div>
+
+        <div class="empty-state hidden" id="emptyShoppingState">
+          <div class="empty-icon" aria-hidden="true">✅</div>
+          <h3>Покупки не требуются</h3>
+          <p>Сейчас запас всех масел соответствует вашим настройкам.</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="button button-secondary" id="copyShoppingListButton" type="button">
+          📋 Скопировать список
+        </button>
+        <button class="button button-secondary" id="exportCsvButton" type="button">
+          📊 Скачать CSV
+        </button>
+        <button class="button button-primary" id="closeShoppingModalFooterButton" type="button">
+          Готово
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

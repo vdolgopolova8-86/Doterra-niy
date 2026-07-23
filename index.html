@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="doTERRA Inventory — удобный учёт эфирных масел, остатков и списка покупок прямо в браузере.">
+  <title>doTERRA Inventory — учёт эфирных масел</title>
+  <link rel="stylesheet" href="assets/css/landing.css">
+</head>
+<body>
+  <header class="landing-header">
+    <div class="container">
+      <nav class="landing-nav" aria-label="Основная навигация">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">🌿</div>
+          <div>
+            <p class="brand-title">doTERRA Inventory</p>
+            <p class="brand-subtitle">Личный учёт коллекции масел</p>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a class="button button-secondary" href="#features">Возможности</a>
+          <a class="button button-primary" href="app/index.html">Открыть приложение</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="hero-badge">✨ Добро пожаловать</div>
+
+        <h1>Держите коллекцию doTERRA под контролем</h1>
+
+        <p class="hero-lead">
+          Простой и красивый помощник для учёта эфирных масел: сколько флаконов
+          есть, что заканчивается и что пора заказать. Всё работает локально
+          в браузере — без регистрации и серверов.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="app/index.html">
+            Начать учёт →
+          </a>
+          <a class="button button-secondary" href="#features">
+            Узнать больше
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Краткая статистика коллекции">
+        <h2>Ваша коллекция</h2>
+        <p>Живой предпросмотр данных из браузера</p>
+
+        <div class="preview-stats">
+          <div class="preview-stat">
+            <div class="preview-stat-label">Наименований</div>
+            <div class="preview-stat-value" id="previewTotalNames">0</div>
+          </div>
+
+          <div class="preview-stat">
+            <div class="preview-stat-label">Флаконов</div>
+            <div class="preview-stat-value" id="previewTotalBottles">0</div>
+          </div>
+
+          <div class="preview-stat">
+            <div class="preview-stat-label">В наличии</div>
+            <div class="preview-stat-value" id="previewAvailable">0</div>
+          </div>
+
+          <div class="preview-stat">
+            <div class="preview-stat-label">К покупке</div>
+            <div class="preview-stat-value" id="previewShopping">0</div>
+          </div>
+        </div>
+
+        <p class="preview-note" id="previewNote">
+          Откройте приложение, чтобы добавить первые масла.
+        </p>
+      </aside>
+    </section>
+
+    <section class="container features" id="features">
+      <h2 class="section-title">Что умеет приложение</h2>
+      <p class="section-subtitle">
+        Всё необходимое для домашней коллекции: от добавления масла до готового
+        списка покупок с экспортом.
+      </p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">📦</div>
+          <h3>Учёт запасов</h3>
+          <p>
+            Закрытые и открытые флаконы, остаток в миллилитрах, категории
+            и заметки — всё в одном месте.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">🛒</div>
+          <h3>Список покупок</h3>
+          <p>
+            Автоматическое пополнение при низком запасе, приоритеты и ручное
+            добавление позиций к заказу.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">💾</div>
+          <h3>Экспорт и импорт</h3>
+          <p>
+            Резервная копия в JSON, список покупок в CSV — данные всегда
+            под рукой и легко переносятся.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta">
+        <h2>Готовы навести порядок в коллекции?</h2>
+        <p>
+          Откройте приложение, добавьте масла и получите актуальную статистику
+          уже через пару минут.
+        </p>
+        <a class="button button-secondary" href="app/index.html">
+          Перейти к учёту
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    doTERRA Inventory • Данные хранятся локально в вашем браузере
+  </footer>
+
+  <script src="assets/js/landing.js"></script>
+</body>
+</html>

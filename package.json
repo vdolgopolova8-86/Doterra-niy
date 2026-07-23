@@ -1,0 +1,16 @@
+{
+  "name": "doterra-inventory",
+  "version": "1.0.0",
+  "description": "Личный учёт коллекции эфирных масел doTERRA",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve . -p 3000",
+    "dev": "npm start"
+  },
+  "keywords": [
+    "doterra",
+    "essential-oils",
+    "inventory"
+  ],
+  "license": "MIT"
+}
